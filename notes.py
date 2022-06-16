@@ -49,13 +49,32 @@ def new_note(username):
         print("Note Opened\n")
         print(f"~~~~~~~~~~~~~~{note_name.upper()}~~~~~~~~~~~~~~")
         text = str(input("Type in text >>> \n"))
-        note.write(f"{text}\n")
-        note.write(f"{datetime.date.today()}\n")
-        note.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
-        note.write("\n")
-        note.close()
-        print("~NOTE SAVED~\n")
-        available_actions(username)
+        if len(text) < 16:
+            is_note_saved = False
+            while is_note_saved is False:
+                print("ARE YOU SURE YOU WANT TO SAVE THIS NOTE ? IT DOESN'T CONTAIN MUCH TEXT!\n")
+                response = input("y/n>> ")
+                if response == "y":
+                    note.write(f"{text}\n")
+                    note.write(f"{datetime.date.today()}\n")
+                    note.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
+                    note.write("\n")
+                    note.close()
+                    print("~NOTE SAVED~\n")
+                    available_actions(username)
+                if response == "n":
+                    print("~NOTE DISCARDED~\n")
+                    available_actions(username)
+                else:
+                    is_note_saved = False
+        else:
+            note.write(f"{text}\n")
+            note.write(f"{datetime.date.today()}\n")
+            note.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
+            note.write("\n")
+            note.close()
+            print("~NOTE SAVED~\n")
+            available_actions(username)
 
 
 def update_note(username):
@@ -69,9 +88,11 @@ def update_note(username):
 
     is_choice_valid = False
     needed_note_index = ""
+    choices = []
     while is_choice_valid is False:
         i = 0
         for items in notes:
+            choices.append(i)
             print(f'Enter ({i}) to open "{items.removesuffix(".txt")}"')
             i += 1
         print("\n")
@@ -79,26 +100,46 @@ def update_note(username):
         try:
             int(needed_note_index)
             if len(needed_note_index) == 1:
-                is_choice_valid = True
+                if int(needed_note_index) in choices:
+                    is_choice_valid = True
             else:
                 is_choice_valid = False
         except ValueError:
             print("Invalid Choice!\n")
             is_choice_valid = False
 
-    notename = search_note_by_index(username, int(needed_note_index))
-    note = open_note(username, notename)
-    print(f"~~~~~~~~~~~~~~{notename.upper()}~~~~~~~~~~~~~~")
-    previous_text = open(f"./user_shelfs/{username}/{notename}.txt", "r+").read()
+    note_name = search_note_by_index(username, int(needed_note_index))
+    note = open_note(username, note_name)
+    print(f"~~~~~~~~~~~~~~{note_name.upper()}~~~~~~~~~~~~~~")
+    previous_text = open(f"./user_shelfs/{username}/{note_name}.txt", "r+").read()
     print(previous_text)
     text = str(input("Type in text >>> "))
-    note.write(f"{text}\n")
-    note.write(f"{datetime.date.today()}\n")
-    note.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
-    note.write("\n")
-    note.close()
-    print("~NOTE SAVED~\n")
-    available_actions(username)
+    if len(text) < 16:
+        is_note_saved = False
+        while is_note_saved is False:
+            print("ARE YOU SURE YOU WANT TO SAVE THIS NOTE ? IT DOESN'T CONTAIN MUCH TEXT!\n")
+            response = input("y/n>> ")
+            if response == "y":
+                note.write(f"{text}\n")
+                note.write(f"{datetime.date.today()}\n")
+                note.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
+                note.write("\n")
+                note.close()
+                print("~NOTE SAVED~\n")
+                available_actions(username)
+            if response == "n":
+                print("~NOTE DISCARDED~\n")
+                available_actions(username)
+            else:
+                is_note_saved = False
+    else:
+        note.write(f"{text}\n")
+        note.write(f"{datetime.date.today()}\n")
+        note.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
+        note.write("\n")
+        note.close()
+        print("~NOTE SAVED~\n")
+        available_actions(username)
 
 
 def open_note(username, note_name):

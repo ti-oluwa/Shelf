@@ -9,7 +9,7 @@ import notes
 # 4. create a text file with the name provided
 # 5. ask user for entry to be saved in the directory with its date
 # 6.  allow user create folders(section)
-# 7. delete, title, edit and search functionality
+# 7. delete, edit and search functionality
 
 
 def init():
@@ -80,6 +80,7 @@ def create_account():
     except ValueError:
         print("Age is supposed to be a number")
         create_account()
+
 
 
 def create_user(firstname, lastname, user_age):
