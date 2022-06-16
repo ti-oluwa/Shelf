@@ -233,7 +233,7 @@ def delete_note(username):
             user_response = input("y/n => ").lower()
             if user_response == "y":
                 os.remove(f"./user_shelfs/{username}/{notename}.txt")
-                print(f"~{notename.upper()} DELETED!~")
+                print(f"~{notename.upper()} DELETED!~\n")
                 available_actions(username)
                 is_valid = True
             elif user_response == "n":
@@ -249,7 +249,7 @@ def delete_note(username):
             if user_response == "y":
                 for items in notes:
                     os.remove(f"./user_shelfs/{username}/{items}")
-                    print(f"~SHELF EMPTIED!~")
+                    print(f"~SHELF EMPTIED!~\n")
                     available_actions(username)
                     is_valid = True
             elif user_response == "n":
