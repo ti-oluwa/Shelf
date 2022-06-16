@@ -86,7 +86,7 @@ def update_note(username):
         print('These is a list of the notes in your shelf')
         x = 1
         for items in notes:
-            print(f"[{x}] {items.removesuffix('txt')}")
+            print(f"[{x}] {items.removesuffix('.txt')}")
             x += 1
         print("*************************************************\n")
 
