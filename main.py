@@ -76,6 +76,7 @@ def create_account():
     try:
         int(user_age)
         username = create_user(firstname, lastname, user_age)
+        print("~USER ACCOUNT CREATED SUCCESSFULLY~\n")
         notes.available_actions(username)
     except ValueError:
         print("Age is supposed to be a number")
