@@ -344,4 +344,4 @@ def search(username):
             available_actions(username)
     else:
         print("NO MATCH FOR SEARCH!\n")
-        search(username)
+        available_actions(username)
