@@ -13,7 +13,7 @@ import notes
 
 
 def init():
-    print("*~~~~~~~~~~SHELF~~~~~~~~~~*", "      Shelf is simple and user friendly note taking app you can use for taking down \nquick thoughts or logging down daily events", sep="\n")
+    print("*~~~~~~~~~~SHELF~~~~~~~~~~*", "      Shelf is simple and user friendly note taking app you can use for taking down \nquick thoughts or logging daily events", sep="\n")
     print("\n")
     print("Create and account today! or Login into your Shelf")
     init2()
@@ -93,6 +93,7 @@ def create_user(firstname, lastname, user_age):
     if is_strong:
         try:
             os.mkdir(f"./user_shelfs/{username}")
+            os.makedirs(f'./user_shelfs/{username}/sections')
             is_user_dir_created = True
 
         except OSError:
