@@ -2,14 +2,17 @@ import os
 
 
 def password_checker(password):
-    # symbols = ("!", "~", ">", "<", "?", "/", "*", "&", "^", "%", "$", '#', "@", "-", "_", " ")
-    # numbers = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9)
+    symbols = ("!", "~", ">", "<", "?", "/", "*", "&", "^", "%", "$", '#', "@", "-", "_", " ")
+    numbers = ('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
     is_strong = False
     for char in password:
         try:
-            int(char)
-            is_strong = True
-            break
+            if char in symbols:
+                is_strong = True
+                break
+            elif char in numbers:
+                is_strong = True
+                break
         except ValueError:
             is_strong = False
     return is_strong

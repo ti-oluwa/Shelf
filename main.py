@@ -62,7 +62,7 @@ def signup():
         if user_resp == "yes":
             create_account()
         elif user_resp == "no":
-            print("Thanks for checking Shelf out. You are now exiting Shelf", "..............................", "GOODBYE", sep="\n")
+            print("Thanks for checking Shelf . You are now exiting Shelf", "..............................", "GOODBYE", sep="\n")
             exit()
         else:
             print("invalid response")
@@ -76,7 +76,7 @@ def create_account():
     try:
         int(user_age)
         username = create_user(firstname, lastname, user_age)
-        print("~USER ACCOUNT CREATED SUCCESSFULLY~\n")
+        print("\n~USER ACCOUNT CREATED SUCCESSFULLY~\n")
         notes.available_actions(username)
     except ValueError:
         print("Age is supposed to be a number")
@@ -86,14 +86,14 @@ def create_account():
 
 def create_user(firstname, lastname, user_age):
     username = str(input("Create a username> \n"))
-    print("Your password should contain at least a number and/ or a symbol")
+    print("Your password should contain at least a number and/or a symbol")
     password = input("Create a strong password> ")
     is_strong = validations.password_checker(password)
     is_user_dir_created = False
     if is_strong:
         try:
             os.mkdir(f"./user_shelfs/{username}")
-            os.makedirs(f'./user_shelfs/{username}/sections')
+            os.makedirs(f'./user_shelfs/{username}/a')
             is_user_dir_created = True
 
         except OSError:
@@ -102,14 +102,14 @@ def create_user(firstname, lastname, user_age):
             print("Choose another username")
             create_user(firstname, lastname, user_age)
     else:
-        print("Error! Password is to weak")
+        print("\n~Error! Password is to weak~\n")
         create_user(firstname, lastname, user_age)
 
     if is_user_dir_created:
         f = open(f"./login_details/{username}.txt", "x")
         f.write(f"{firstname}\n{lastname}\n{user_age}\n{password}")
         f.close()
-        return username
+    return username
 
 
 init()

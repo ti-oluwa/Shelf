@@ -115,10 +115,8 @@ def new_note(username):
 
 
 def update_note(username):
-    notes = os.listdir(f"./user_shelfs/{username}")
-    for items in notes:
-        if items == 'sections':
-            notes.remove(items)
+    notes = os.listdir(f"./user_shelfs/{username}")   
+    notes.remove('a')
     if notes != []:
         print('These is a list of the notes in your shelf')
         x = 1
@@ -149,9 +147,7 @@ def update_note(username):
                 print("Invalid Choice!\n")
                 is_choice_valid = False
         needed_note_index = int(needed_note_index) + 1
-        print(needed_note_index)
         note_name = search_note_by_index(username, needed_note_index)
-        print(note_name)
         note = open_note(username, note_name)
         try:
             previous_text = open(f"./user_shelfs/{username}/{note_name}.txt", "r+").read()
@@ -214,10 +210,10 @@ def open_note(username, note_name):
 
 def open_note_for_section(username, section_name, note_name):
     try:
-        f = open(f"./user_shelfs/{username}/sections/{section_name}/{note_name}.txt", "r+")
+        f = open(f"./user_shelfs/{username}/a/{section_name}/{note_name}.txt", "r+")
         listed_note = f.read().split("\n")
         if listed_note == []:
-            f = open(f"./user_shelfs/{username}/sections/{section_name}/{note_name}.txt", "a+")
+            f = open(f"./user_shelfs/{username}/a/{section_name}/{note_name}.txt", "a+")
             f.write(f"This note was created {datetime.date.today()}\n")
             f.write(f"{datetime.datetime.now().strftime('%H:%M')}\n")
             f.write("\n")
@@ -225,7 +221,7 @@ def open_note_for_section(username, section_name, note_name):
             f.write("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
             note = f
         else:
-            f = open(f"./user_shelfs/{username}/sections/{section_name}/{note_name}.txt", "a+")
+            f = open(f"./user_shelfs/{username}/a/{section_name}/{note_name}.txt", "a+")
             note = f
         return note
     except FileNotFoundError:
@@ -249,21 +245,19 @@ def search_note_by_name_return_index(username, notename):
 
 def search_note_by_index(username, note_index):
     notes = os.listdir(f"./user_shelfs/{username}")
-    print(notes)
     # f = open(f"./user_shelfs/{username}/{notes[note_index]}", "r+")
     needed_note = notes[note_index].removesuffix(".txt")
-    print(needed_note)
     return needed_note
 
 def search_section_by_index(username, section_index):
-    sections = os.listdir(f"./user_shelfs/{username}/sections")
+    sections = os.listdir(f"./user_shelfs/{username}/a")
     # f = open(f"./user_shelfs/{username}/{notes[note_index]}", "r+")
     needed_section = sections[section_index]
     return needed_section
 
 
 def search_note_by_index_for_section(username, section_name, note_index):
-    notes = os.listdir(f"./user_shelfs/{username}/sections/{section_name}")
+    notes = os.listdir(f"./user_shelfs/{username}/a/{section_name}")
     # f = open(f"./user_shelfs/{username}/{notes[note_index]}", "r+")
     needed_note = notes[note_index].removesuffix(".txt")
     return needed_note
@@ -272,6 +266,7 @@ def search_note_by_index_for_section(username, section_name, note_index):
 
 def delete_note(username):
     notes = os.listdir(f"./user_shelfs/{username}")
+    notes.remove('a')
     if notes != []:
         print('These is a list of the notes in your shelf')
         x = 1
@@ -339,7 +334,7 @@ def delete_note(username):
 
 
 def delete_section(username):
-    sections_ = os.listdir(f"./user_shelfs/{username}/sections")
+    sections_ = os.listdir(f"./user_shelfs/{username}/a")
     if sections_ != []:
         print('These is a list of the sections in your shelf')
         x = 1
@@ -374,7 +369,7 @@ def delete_section(username):
             while is_valid is False:
                 user_response = input("y/n => ").lower()
                 if user_response == "y":
-                    os.rmdir(f"./user_shelfs/{username}/sections/{section_name}")
+                    os.rmdir(f"./user_shelfs/{username}/a/{section_name}")
                     print(f"~{section_name.upper()} DELETED!~\n")
                     sections(username)
                     is_valid = True
@@ -390,7 +385,7 @@ def delete_section(username):
                 user_response = input("y/n => ").lower()
                 if user_response == "y":
                     for items in sections_:
-                        os.rmdir(f"./user_shelfs/{username}/sections/{items}")
+                        os.rmdir(f"./user_shelfs/{username}/a/{items}")
                         print(f"~SHELF EMPTIED!~\n")
                         sections(username)
                         is_valid = True
@@ -407,7 +402,7 @@ def delete_section(username):
 
 
 def delete_note_for_section(username, section_name):
-    notes = os.listdir(f"./user_shelfs/{username}/sections/{section_name}")
+    notes = os.listdir(f"./user_shelfs/{username}/a/{section_name}")
     if notes != []:
         print('These is a list of the notes in this section')
         x = 1
@@ -441,7 +436,7 @@ def delete_note_for_section(username, section_name):
             while is_valid is False:
                 user_response = input("y/n => ").lower()
                 if user_response == "y":
-                    os.remove(f"./user_shelfs/{username}/sections/{section_name}/{notename}.txt")
+                    os.remove(f"./user_shelfs/{username}/a/{section_name}/{notename}.txt")
                     print(f"~{notename.upper()} DELETED!~\n")
                     sections(username)
                     is_valid = True
@@ -457,7 +452,7 @@ def delete_note_for_section(username, section_name):
                 user_response = input("y/n => ").lower()
                 if user_response == "y":
                     for items in notes:
-                        os.remove(f"./user_shelfs/{username}/sections/{section_name}/{items}")
+                        os.remove(f"./user_shelfs/{username}/a/{section_name}/{items}")
                         print(f"~SECTION EMPTIED!~\n")
                         sections(username)
                         is_valid = True
@@ -475,11 +470,11 @@ def delete_note_for_section(username, section_name):
 def search(username):
     search_ = list(input("SEARCH >> ").lower())
     user_notes = os.listdir(f"./user_shelfs/{username}")
-    user_sections = os.listdir(f'./user_shelfs/{username}/sections')
+    user_sections = os.listdir(f'./user_shelfs/{username}/a')
     if user_sections != []:
         notes_in_sections = []
         for item in user_sections:
-            section = os.listdir(f'./user_shelfs/{username}/sections/{item}')
+            section = os.listdir(f'./user_shelfs/{username}/a/{item}')
             for notes in section:
                 notes_in_sections.append(notes)
     user_notes_and_sections = user_notes + user_sections +notes_in_sections
@@ -509,7 +504,7 @@ def search(username):
         print("SEARCH RESULTS:  ")
         a = 1
         for notes in possible_search_result:
-            if notes != 'sections':
+            if notes != 'a':
                 print(f"({a}) {notes}")
                 a += 1
         is_choice_valid = False
@@ -607,14 +602,14 @@ def make_folder(username):
     is_created = False
     try:
         is_already_created = True
-        os.makedirs(f'./user_shelfs/{username}/sections')
+        os.makedirs(f'./user_shelfs/{username}/a')
         is_already_created = False
         if is_already_created is False:
             while is_created is False:
                     folder_name = input('Enter section name>> ')
                     if folder_name and  folder_name != ' ':
                         try:
-                            os.makedirs(f'./user_shelfs/{username}/sections/{folder_name}(section)')
+                            os.makedirs(f'./user_shelfs/{username}/a/{folder_name}(section)')
                             print(f"'{folder_name}' has been created!\n")
                             sections(username)
                             is_created = True
@@ -631,7 +626,7 @@ def make_folder(username):
                     if folder_name and  folder_name != ' ':
                         print(folder_name)
                         try:
-                            os.makedirs(f'./user_shelfs/{username}/sections/{folder_name}(section)')
+                            os.makedirs(f'./user_shelfs/{username}/a/{folder_name}(section)')
                             print(f"'{folder_name}' has been created!\n")
                             sections(username)
                             is_created = True 
@@ -644,7 +639,7 @@ def make_folder(username):
 
 
 def list_folders(username):
-    sections_ = os.listdir(f'./user_shelfs/{username}/sections')
+    sections_ = os.listdir(f'./user_shelfs/{username}/a')
     print('*****SECTIONS*****/n')
     x = 1
     for section in sections_:
@@ -737,7 +732,7 @@ def update_note_for_section(username, section_name, section_notes):
         note_name = search_note_by_index_for_section(username, section_name, int(needed_note_index))
         note = open_note_for_section(username, section_name, note_name)
         try:
-            previous_text = open(f"./user_shelfs/{username}/sections/{section_name}/{note_name}.txt", "r+").read()
+            previous_text = open(f"./user_shelfs/{username}/a/{section_name}/{note_name}.txt", "r+").read()
             print(f"~~~~~~~~~~~~~~{note_name.upper()}~~~~~~~~~~~~~~")
             print(previous_text)
             text = str(input("Type in text >>> "))
@@ -781,7 +776,7 @@ def update_note_for_section(username, section_name, section_notes):
 
 
 def open_section(username, section_name):
-    section_content = os.listdir(f'./user_shelfs/{username}/sections/{section_name}')
+    section_content = os.listdir(f'./user_shelfs/{username}/a/{section_name}')
     return section_content
 
 
@@ -796,7 +791,7 @@ def add_to_folder(username):
                 x += 1
             elif len(notes) == 1 and '.txt' not in items:
                 print('SORRY NO NOTE FOUND!')
-                exit()
+                sections(username)
                 
         print("*************************************************\n")
 
@@ -806,7 +801,7 @@ def add_to_folder(username):
         while is_choice_valid is False:
             i = 0
             for items in notes:
-                if items != 'sections':
+                if items != 'a':
                     choices.append(i)
                     print(f'ENTER [{i}] to move "{items.removesuffix(".txt")}"')
                     i += 1
@@ -816,7 +811,7 @@ def add_to_folder(username):
                 int(needed_note_index)         
                 if int(needed_note_index) in choices:
                     for items in notes:
-                        if items == 'sections':
+                        if items == 'a':
                             needed_note_index = int(needed_note_index) + 1
                     is_choice_valid = True
                 else:
@@ -827,11 +822,11 @@ def add_to_folder(username):
 
             if is_choice_valid:
                 notename = search_note_by_index(username, int(needed_note_index))
-                sections = os.listdir(f'./user_shelfs/{username}/sections')
-                if sections != []:
+                sections_ = os.listdir(f'./user_shelfs/{username}/a')
+                if sections_ != []:
                     print('These is a list of the sections in your shelf')
                     x = 1
-                    for items in sections:
+                    for items in sections_:
                         print(f"[{x}] {items.removesuffix('.txt')}")
                         x += 1
                     print("*************************************************\n")
@@ -841,7 +836,7 @@ def add_to_folder(username):
                     choices = []
                     while is_choice_valid is False:
                         i = 0
-                        for items in sections:
+                        for items in sections_:
                             choices.append(i)
                             print(f'ENTER [{i}] to move to "{items}"')
                             i += 1
@@ -859,7 +854,7 @@ def add_to_folder(username):
                     if is_choice_valid:
                         section_name = search_section_by_index(username, int(needed_section_index)) 
                         root = f'./user_shelfs/{username}/{notename}.txt'
-                        destination_folder = os.listdir(f'./user_shelfs/{username}/sections/{section_name}')
+                        destination_folder = os.listdir(f'./user_shelfs/{username}/a/{section_name}')
                         no_of_like_notes = 0
                         like_notes = []
                         for notes in destination_folder:
@@ -874,13 +869,13 @@ def add_to_folder(username):
                            
                             new_index =int(indices[-1]) + 1
                             root = f'./user_shelfs/{username}/{notename}.txt'
-                            destination = f'./user_shelfs/{username}/sections/{section_name}/{notename}{new_index}.txt'
+                            destination = f'./user_shelfs/{username}/a/{section_name}/{notename}{new_index}.txt'
                             shutil.move(root, destination)
                             print(f"\n'{notename}' has been moved to {section_name} as {notename}{new_index}")
                             sections(username)
                         
                         else:
-                            destination = f'./user_shelfs/{username}/sections/{section_name}/{notename}.txt'
+                            destination = f'./user_shelfs/{username}/a/{section_name}/{notename}.txt'
                             shutil.move(root, destination)                       
                             print(f"\n'{notename}' has been moved to {section_name}")
                             sections(username)
@@ -890,7 +885,7 @@ def add_to_folder(username):
 
 
 def remove_from_folder(username, section_name):
-    notes = os.listdir(f"./user_shelfs/{username}/sections/{section_name}")
+    notes = os.listdir(f"./user_shelfs/{username}/a/{section_name}")
     if notes != []:
         print('These is a list of the notes in this section')
         x = 1
@@ -927,7 +922,7 @@ def remove_from_folder(username, section_name):
 
             if is_choice_valid:
                 notename = search_note_by_index_for_section(username, section_name, int(needed_note_index))
-                root = f'./user_shelfs/{username}/sections/{section_name}/{notename}.txt'
+                root = f'./user_shelfs/{username}/a/{section_name}/{notename}.txt'
                 destination_folder = os.listdir(f'./user_shelfs/{username}')
                 no_of_like_notes = 0
                 like_notes = []
@@ -955,6 +950,3 @@ def remove_from_folder(username, section_name):
 
     else:
         print('NO NOTES IN THIS SECTION')
-
-                            
-search_note_by_index('ti_oluwa', 1)
